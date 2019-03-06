@@ -11,8 +11,10 @@
     <td><%= task.title %></td>
     <td><%= task.content %></td>
     <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
+    <td><%= link_to "ブログを編集する", edit_task_path(task.id) %></td>
   </tr>
 <% end %>
 </table>
 
 <%= link_to 'ブログ一覧画面にもどる', tasks_path %>
+<%= link_to '新しくブログを投稿する', new_task_path %>
