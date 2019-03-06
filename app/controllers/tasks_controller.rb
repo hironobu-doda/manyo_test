@@ -5,9 +5,23 @@ class TasksController < ApplicationController
   end
 
   def create
-    Task.create(title: params[:task][:title], content: params[:task][:content])
+    Task.create(task_params)
+    redirect_to new_task_path
   end
 
   def index
+    @tasks = Task.all
   end
+
+  def show
+    @task = Task.find(params[:id])
+  end
+
+  private
+
+  def task_params
+    params.require(:task).permit(:title, :content)
+  end
+
+
 end
