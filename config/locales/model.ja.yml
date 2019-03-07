@@ -1,7 +1,7 @@
 ja:
   activerecord:
     models:
-      task: "ブログ"
+      task: "タスク"
     attributes:
       task:
         title: "タイトル"
