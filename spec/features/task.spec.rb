@@ -43,23 +43,23 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   end
 
-  scenario "タスク一覧のテスト" do
+  scenario "タスク詳細のテスト" do
     Task.create!(title: 'test_task_01', content: 'testtesttest')
     Task.create!(title: 'test_task_02', content: 'samplesample')
-
     visit tasks_path
+    save_and_open_page
 
     # 実際の状況を確認したい箇所にさし挟む。
     # 例の場合、「タスクが保存された後、タスク一覧ページに行くとどうなるのか」を確認するため
     # visit tasks_path の直後に save_and_open_page を挟んでいる
-    save_and_open_page
+    # save_and_open_page
 
+    click_on '詳細を確認する', match: :first
+    #save_and_open_page
+
+    expect(page).to have_content 'test_task_01'
     expect(page).to have_content 'testtesttest'
-    expect(page).to have_content 'samplesample'
   end
 
-  scenario "タスク詳細のテスト" do
 
-  end
-  
 end
