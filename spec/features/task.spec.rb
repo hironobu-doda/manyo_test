@@ -18,8 +18,8 @@ RSpec.feature "タスク管理機能", type: :feature do
 
     # visitした（到着した）expect(page)に（タスク一覧ページに）「testtesttest」「samplesample」という文字列が
     # have_contentされているか？（含まれているか？）ということをexpectする（確認・期待する）テストを書いている
-    expect(page).to have_content 'Factoryで作ったデフォルトのタイトル１'
-    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント２'
+    expect(page).to have_content '付け加えた名前３'
+    expect(page).to have_content '付け加えたコンテント'
 
   end
 
@@ -51,7 +51,6 @@ RSpec.feature "タスク管理機能", type: :feature do
     # Task.create!(title: 'test_task_01', content: 'testtesttest')
     # Task.create!(title: 'test_task_02', content: 'samplesample')
     visit tasks_path
-    save_and_open_page
 
     # 実際の状況を確認したい箇所にさし挟む。
     # 例の場合、「タスクが保存された後、タスク一覧ページに行くとどうなるのか」を確認するため
@@ -61,12 +60,22 @@ RSpec.feature "タスク管理機能", type: :feature do
     click_on '詳細を確認する', match: :first
     #save_and_open_page
 
-    expect(page).to have_content 'Factoryで作ったデフォルトのタイトル２'
-    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント２'
+    expect(page).to have_content '付け加えた名前３'
+    expect(page).to have_content '付け加えたコンテント'
   end
 
   scenario "タスクが作成日時の降順に並んでいるかのテスト" do
     # ここにテスト内容を記載する
+
+    visit tasks_path
+    save_and_open_page
+    # 降順になっているので、FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')から順に並んでいる
+    expect(page).to have_content '付け加えた名前３'
+    expect(page).to have_content '付け加えたコンテント'
+    expect(page).to have_content '付け加えた名前２'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
+    expect(page).to have_content '付け加えた名前１'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
   end
 
 end
