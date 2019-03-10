@@ -29,6 +29,6 @@
 
 # バージョン情報
 ---
-ruby 2.6.0
-rails 5.2.2
-bundler 1.17.3（bundlerのバージョン2はherokuに対応していません。バージョンダウンしましょう。）
+- ruby 2.6.0
+- rails 5.2.2
+- bundler 1.17.3（bundlerのバージョン2はherokuに対応していません。バージョンダウンしましょう。）
