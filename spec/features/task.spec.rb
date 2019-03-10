@@ -3,19 +3,23 @@ require 'rails_helper'
 
 # このRSpec.featureの右側に、「タスク管理機能」のように、テスト項目の名称を書きます（do ~ endでグループ化されています）
 RSpec.feature "タスク管理機能", type: :feature do
+
+  background do
+    FactoryBot.create(:task, title: '付け加えた名前１')
+    FactoryBot.create(:task, title: '付け加えた名前２')
+    FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')
+  end
   # scenario（itのalias）の中に、確認したい各項目のテストの処理を書きます。
   scenario "タスク一覧のテスト" do
     # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
-    Task.create!(title: 'test_task_01', content: 'testtesttest')
-    Task.create!(title: 'test_task_02', content: 'samplesample')
 
     # tasks_pathにvisitする（タスク一覧ページに遷移する）
     visit tasks_path
 
     # visitした（到着した）expect(page)に（タスク一覧ページに）「testtesttest」「samplesample」という文字列が
     # have_contentされているか？（含まれているか？）ということをexpectする（確認・期待する）テストを書いている
-    expect(page).to have_content 'testtesttest'
-    expect(page).to have_content 'samplesample'
+    expect(page).to have_content '付け加えた名前３'
+    expect(page).to have_content '付け加えたコンテント'
 
   end
 
@@ -28,8 +32,8 @@ RSpec.feature "タスク管理機能", type: :feature do
     # タスクのタイトルと内容をそれぞれfill_in（入力）する
     # 2.ここに「タスク名」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
     # 3.ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
-    fill_in 'Title', with: 'aaa'
-    fill_in 'Content', with: 'bbb'
+    fill_in 'タイトル', with: 'aaa'
+    fill_in '内容', with: 'bbb'
 
     # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
     # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
@@ -44,10 +48,9 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク詳細のテスト" do
-    Task.create!(title: 'test_task_01', content: 'testtesttest')
-    Task.create!(title: 'test_task_02', content: 'samplesample')
+    # Task.create!(title: 'test_task_01', content: 'testtesttest')
+    # Task.create!(title: 'test_task_02', content: 'samplesample')
     visit tasks_path
-    save_and_open_page
 
     # 実際の状況を確認したい箇所にさし挟む。
     # 例の場合、「タスクが保存された後、タスク一覧ページに行くとどうなるのか」を確認するため
@@ -57,9 +60,22 @@ RSpec.feature "タスク管理機能", type: :feature do
     click_on '詳細を確認する', match: :first
     #save_and_open_page
 
-    expect(page).to have_content 'test_task_01'
-    expect(page).to have_content 'testtesttest'
+    expect(page).to have_content '付け加えた名前３'
+    expect(page).to have_content '付け加えたコンテント'
   end
 
+  scenario "タスクが作成日時の降順に並んでいるかのテスト" do
+    # ここにテスト内容を記載する
+
+    visit tasks_path
+    save_and_open_page
+    # 降順になっているので、FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')から順に並んでいる
+    expect(page).to have_content '付け加えた名前３'
+    expect(page).to have_content '付け加えたコンテント'
+    expect(page).to have_content '付け加えた名前２'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
+    expect(page).to have_content '付け加えた名前１'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
+  end
 
 end
