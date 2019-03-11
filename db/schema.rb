@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2019_03_10_173334) do
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "time_limit", default: "2019-03-11 03:16:20", null: false
+    t.datetime "time_limit", default: "2019-03-11 14:21:21", null: false
   end
 
 end

@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :task do
     title { 'Factoryで作ったデフォルトのタイトル１' }
     content { 'Factoryで作ったデフォルトのコンテント１' }
-    time_limit { DateTime.now }
+    time_limit { "2019-03-11 14:20:14 +0900" }
   end
 
   # 作成するテストデータの名前を「second_task」とします
