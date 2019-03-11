@@ -5,12 +5,14 @@
   <tr>
     <th>タイトル</th>
     <th>内容</th>
+    <td><%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %></td>
   </tr>
 
 <% @tasks.each do |task| %>
   <tr>
     <td><%= task.title %></td>
     <td><%= task.content %></td>
+    <td><%= task.time_limit %></td>
     <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
     <td><%= link_to "タスクを編集する", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></td>
     <td><%= link_to 'タスクを削除する', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>

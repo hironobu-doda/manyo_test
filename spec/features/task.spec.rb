@@ -68,7 +68,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     # ここにテスト内容を記載する
 
     visit tasks_path
-    save_and_open_page
+    # save_and_open_page
     # 降順になっているので、FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')から順に並んでいる
     expect(page).to have_content '付け加えた名前３'
     expect(page).to have_content '付け加えたコンテント'
@@ -76,6 +76,29 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
     expect(page).to have_content '付け加えた名前１'
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
+  end
+
+  scenario "タスク終了期限作成のテスト" do
+
+    visit new_task_path
+    save_and_open_page
+
+    fill_in 'Time limit', with: DateTime.now
+
+    click_on '登録する'
+
+    expect(page).to have_content DateTime.now
+
+  end
+
+  scenario "タスクが終了期限でソートするかテスト" do
+
+    visit tasks_path
+
+    click_on '終了期限でソートする', match: :first
+    #save_and_open_page
+
+    expect(page).to have_content DateTime.now
   end
 
 end
