@@ -1,24 +1,43 @@
 <h1>タスク一覧</h1>
 <p><%= notice %></p>
 
+<%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
+  <%= f.label :title_key, 'タイトル検索' %>
+  <%= f.text_field :title %>
+
+  <%= f.label :status_key, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
+  <%= select :status, :name, Task.statuses.values, include_blank: true %>
+
+  <%= f.hidden_field :search, value: 'true' %>
+
+  <%= f.submit '検索' %>
+  <%= link_to '戻る', tasks_path %>
+<% end %>
+
+<% if params[:search] != "true" %>
+  <%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
+  <%= link_to 'ソートを戻す', tasks_path %>
+<% end %>
+
 <table>
   <tr>
     <th>タイトル</th>
     <th>内容</th>
-    <td><%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %></td>
+    <th>終了期限</th>
+    <th>ステータス</th>
   </tr>
 
-<% @tasks.each do |task| %>
-  <tr>
-    <td><%= task.title %></td>
-    <td><%= task.content %></td>
-    <td class = "index"><%= task.time_limit %></td>
-    <td><%= select :status,:name,Task.statuses.keys.to_a %></td>
-    <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
-    <td><%= link_to "タスクを編集する", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></td>
-    <td><%= link_to 'タスクを削除する', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>
-  </tr>
-<% end %>
+  <% @tasks.each do |task| %>
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= task.content %></td>
+      <td class = "index"><%= task.time_limit %></td>
+      <td><%= task.status %></td>
+      <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
+      <td><%= link_to "タスクを編集する", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></td>
+      <td><%= link_to 'タスクを削除する', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>
+    </tr>
+  <% end %>
 </table>
 
 

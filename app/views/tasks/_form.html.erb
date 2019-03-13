@@ -25,6 +25,12 @@
     <%= form.label :time_limit %>
     <%= form.text_field :time_limit %>
   </div>
+
+  <div class="task_title">
+    <%= form.label :status %>
+    <%= form.select :status, Task.statuses.keys.to_a %>
+  </div>
+
   <%= form.submit :登録する %>
 <% end %>
 
