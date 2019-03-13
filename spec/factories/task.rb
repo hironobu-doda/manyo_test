@@ -8,6 +8,7 @@ FactoryBot.define do
     content { 'Factoryで作ったデフォルトのコンテント１' }
     time_limit { "2019-03-11 14:20:14 +0900" }
     status { 'waiting'}
+    priority { 'high'}
   end
 
   # 作成するテストデータの名前を「second_task」とします
