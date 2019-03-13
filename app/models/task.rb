@@ -7,4 +7,6 @@ class Task < ApplicationRecord
   scope :serch_all, -> (title, status) { where("title = ? and status = ?", title, status) }
   scope :serch_title, -> (title) { where(title: title) }
   scope :serch_status, -> (status) { where(status: status) }
+
+  paginates_per 10
 end
