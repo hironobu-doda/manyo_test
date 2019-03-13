@@ -2,11 +2,11 @@
 <p><%= notice %></p>
 
 <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
-  <%= f.label :title_key, 'タイトル検索' %>
+  <%= f.label :title, 'タイトル検索' %>
   <%= f.text_field :title %>
 
-  <%= f.label :status_key, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
-  <%= select :status, :name, Task.statuses.values, include_blank: true %>
+  <%= f.label :status, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
+  <%= f.select :status, Task.statuses.values, include_blank: true %>
 
   <%= f.hidden_field :search, value: 'true' %>
 

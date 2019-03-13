@@ -85,7 +85,7 @@ RSpec.feature "タスク管理機能", type: :feature do
 
     fill_in 'タイトル', with: 'aaa'
     fill_in '内容', with: 'bbb'
-    fill_in 'Time limit', with: "2019-03-11T14:36:14+09:00"
+    fill_in '終了期限', with: "2019-03-11T14:36:14+09:00"
 
     click_on '登録する'
 
@@ -96,7 +96,7 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   scenario "タスクが終了期限でソートするかテスト" do
 
-   visit tasks_path
+    visit tasks_path
     # save_and_open_page
 
     click_on '終了期限でソートする'
@@ -108,5 +108,24 @@ RSpec.feature "タスク管理機能", type: :feature do
     # background.each.do |time_limit|
     # expect(page).to have_content time_limit
   end
+
+  scenario "検索ロジックのテスト" do
+
+    visit tasks_path
+    # save_and_open_page
+
+    fill_in 'タイトル検索', with: '付け加えた名前１'
+
+    select 0, from: 'ステータス検索(0:waiting, 1:working, 2:completed)'
+
+    click_on '検索'
+    save_and_open_page
+
+    expect(page).to have_content '付け加えた名前１'
+    expect(page).to have_content 'completed'
+
+  end
+
+
 
 end
