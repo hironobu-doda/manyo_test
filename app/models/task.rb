@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   validates :title, :content, :time_limit, presence: true
   # 未着手0,着手中1,完了2にした
   enum status:{waiting: 0, working: 1, completed: 2}
-  enum priority:{high: 0, middle: 1, low: 2}
+  enum priority:{low: 0, middle: 1, high: 2}
 
   scope :serch_all, -> (title, status) { where("title = ? and status = ?", title, status) }
   scope :serch_title, -> (title) { where(title: title) }
