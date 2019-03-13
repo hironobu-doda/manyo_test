@@ -22,11 +22,11 @@ class TasksController < ApplicationController
       # @tasks = Task.where(title: params[:title])
       # @tasks = Task.where(status: params[:status][:name])
       if (params[:title] != '') && (params[:status][:name] != '')
-        @tasks = Task.where("title = ? and status = ?", params[:title], params[:status][:name])
+        @tasks = Task.serch_all(params[:title], params[:status][:name])
       elsif params[:status][:name] == ''
-        @tasks = Task.where(title: params[:title])
+        @tasks = Task.serch_title(params[:title])
       else
-        @tasks = Task.where(status: params[:status][:name])
+        @tasks = Task.serch_status(params[:status][:name])
       end
     else
       if params[:sort_expired] == 'true'
