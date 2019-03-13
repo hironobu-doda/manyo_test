@@ -18,4 +18,14 @@ RSpec.describe Task, type: :model do
     task = Task.new(title: 'aaa', content: 'aaa')
     expect(task).to be_valid
   end
+
+  it "statusカラムのキー番号を指定すると、キー番号に対応しているキーを取り出すことができる" do
+    task0 = Task.statuses.keys[0]
+    task1 = Task.statuses.keys[1]
+    task2 = Task.statuses.keys[2]
+
+    expect(task0).to eq 'waiting'
+    expect(task1).to eq 'working'
+    expect(task2).to eq 'completed'
+  end
 end
