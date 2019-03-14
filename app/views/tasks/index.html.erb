@@ -1,51 +1,72 @@
-<h1>タスク一覧</h1>
-<p><%= notice %></p>
+<div class="container">
 
-<%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
-  <%= f.label :title, 'タイトル検索' %>
-  <%= f.text_field :title %>
+  <h1 class="main_title">タスク一覧</h1>
+  <p><%= notice %></p>
 
-  <%= f.label :status, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
-  <%= f.select :status, Task.statuses.values, include_blank: true %>
+    <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
+      <table>
+        <ul class="row">
+          <li class="col-md-4">
+            <%= f.label :title, 'タイトル検索' %>
+            <%= f.text_field :title %>
+          </li>
 
-  <%= f.hidden_field :search, value: 'true' %>
+          <li class="col-md-6">
+            <%= f.label :status, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
+            <%= f.select :status, Task.statuses.values, include_blank: true %>
+          </li>
 
-  <%= f.submit '検索' %>
-  <%= link_to '戻る', tasks_path %>
-<% end %>
+          <%= f.hidden_field :search, value: 'true' %>
 
-<% if params[:search] != "true" %>
-  <%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
-  <%= link_to "優先順位でソートする", tasks_path(sort_priority: "true") %>
-  <%= link_to 'ソートを戻す', tasks_path %>
-<% end %>
+          <li class="col-md-1">
+            <%= f.submit '検索' %>
+          </li>
+        </ul>
+      </table>
+    <% end %>
 
-<%= page_entries_info @tasks %>
-
-<%= paginate @tasks %>
-
-<table>
-  <tr>
-    <th>タイトル</th>
-    <th>内容</th>
-    <th>終了期限</th>
-    <th>ステータス</th>
-    <th>優先順位</th>
-  </tr>
-
-  <% @tasks.each do |task| %>
-    <tr>
-      <td><%= task.title %></td>
-      <td><%= task.content %></td>
-      <td class = "index"><%= task.time_limit %></td>
-      <td><%= task.status %></td>
-      <td class = "priority"><%= task.priority %></td>
-      <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
-      <td><%= link_to "タスクを編集する", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></td>
-      <td><%= link_to 'タスクを削除する', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>
-    </tr>
+  <% if params[:search] == "true" %>
+    <%= link_to '戻る', tasks_path %>
   <% end %>
-</table>
+
+  <table>
+    <ul class="row">
+      <% if params[:search] != "true" %>
+        <li class="col-md-2"><%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %></li>
+        <li class="col-md-2"><%= link_to "優先順位でソートする", tasks_path(sort_priority: "true") %></li>
+        <li class="col-md-2"><%= link_to 'ソートを戻す', tasks_path %></li>
+      <% end %>
+    </ul>
+  </table>
+
+  <%= page_entries_info @tasks %>
+
+  <%= paginate @tasks %>
+
+  <table>
+    <tr class="row">
+      <th class="col-md-2">タイトル</th>
+      <th class="col-md-2">内容</th>
+      <th class="col-md-2">終了期限</th>
+      <th class="col-md-2">ステータス</th>
+      <th class="col-md-1">優先順位</th>
+    </tr>
+
+    <% @tasks.each do |task| %>
+      <tr class="row">
+        <td class="col-md-2"><%= task.title %></td>
+        <td class="col-md-2"><%= task.content %></td>
+        <td class="col-md-2" class = "index"><%= task.time_limit %></td>
+        <td class="col-md-2"><%= task.status %></td>
+        <td class="col-md-1" class = "priority"><%= task.priority %></td>
+        <td><%= link_to '詳細確認', task_path(task.id) %></td>
+        <td><%= link_to "タスク編集", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></td>
+        <td><%= link_to 'タスク削除', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>
+      </tr>
+    <% end %>
+  </table>
 
 
-<%= link_to '新しくタスクを投稿する', new_task_path %>
+  <%= link_to '新しくタスクを投稿する', new_task_path %>
+
+</div>
