@@ -7,4 +7,8 @@ class Task < ApplicationRecord
   scope :serch_all, -> (title, status) { where("title = ? and status = ?", title, status) }
   scope :serch_title, -> (title) { where(title: title) }
   scope :serch_status, -> (status) { where(status: status) }
+
+  scope :time_limit, -> { all.order(time_limit: :desc) }
+  scope :priority, -> { all.order(priority: :desc) }
+  scope :created_at, -> { all.order(created_at: :desc) }
 end

@@ -30,11 +30,14 @@ class TasksController < ApplicationController
       end
     else
       if params[:sort_expired] == 'true'
-        @tasks = Task.all.order(time_limit: :desc)
+        # @tasks = Task.all.order(time_limit: :desc)
+        @tasks = Task.time_limit
       elsif params[:sort_priority] == 'true'
-        @tasks = Task.all.order(priority: :desc)
+        # @tasks = Task.all.order(priority: :desc)
+        @tasks = Task.priority
       else
-        @tasks = Task.all.order(created_at: :desc)
+        # @tasks = Task.all.order(created_at: :desc)
+        @tasks = Task.created_at
       end
     end
 
