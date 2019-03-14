@@ -8,5 +8,9 @@ class Task < ApplicationRecord
   scope :serch_title, -> (title) { where(title: title) }
   scope :serch_status, -> (status) { where(status: status) }
 
+  scope :time_limit, -> { all.order(time_limit: :desc) }
+  scope :priority, -> { all.order(priority: :desc) }
+  scope :created_at, -> { all.order(created_at: :desc) }
+
   paginates_per 10
 end
