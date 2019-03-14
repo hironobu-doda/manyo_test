@@ -22,26 +22,25 @@ class TasksController < ApplicationController
       # @tasks = Task.where(title: params[:title])
       # @tasks = Task.where(status: params[:status][:name])
       if (params[:title] != '') && (params[:status] != '')
-        @tasks = Task.serch_all(params[:title], params[:status])
+        @tasks = Task.page(params[:page]).serch_all(params[:title], params[:status])
       elsif params[:status] == ''
-        @tasks = Task.serch_title(params[:title])
+        @tasks = Task.page(params[:page]).serch_title(params[:title])
       else
-        @tasks = Task.serch_status(params[:status])
+        @tasks = Task.page(params[:page]).serch_status(params[:status])
       end
     else
       if params[:sort_expired] == 'true'
         # @tasks = Task.all.order(time_limit: :desc)
-        @tasks = Task.time_limit
+        @tasks = Task.page(params[:page]).time_limit
       elsif params[:sort_priority] == 'true'
         # @tasks = Task.all.order(priority: :desc)
-        @tasks = Task.priority
+        @tasks = Task.page(params[:page]).priority
       else
         # @tasks = Task.all.order(created_at: :desc)
-        @tasks = Task.created_at
+        # @tasks = Task.created_at
+        @tasks = Task.page(params[:page]).created_at
       end
     end
-    @tasks = Task.page(params[:page])
-
   end
 
   def show
