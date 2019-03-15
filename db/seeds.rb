@@ -11,3 +11,12 @@
     content: "タスク内容#{i}"
   )
 end
+
+10.times do |n|
+  User.create!(
+    name: "#{n}yamada",
+    email: "#{n}yamada@example.com",
+    password_digest: "#{n}yamadadayo",
+    password_confirmation: "#{n}yamadadayo",
+  )
+end

@@ -4,7 +4,7 @@
   <p><%= notice %></p>
 
     <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
-      <table>
+      <table class="serch">
         <ul class="row">
           <li class="col-md-4">
             <%= f.label :title, 'タイトル検索' %>
