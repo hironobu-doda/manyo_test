@@ -16,7 +16,7 @@ end
   User.create!(
     name: "#{n}yamada",
     email: "#{n}yamada@example.com",
-    password_digest: "#{n}yamadadayo",
+    password: "#{n}yamadadayo",
     password_confirmation: "#{n}yamadadayo",
   )
 end

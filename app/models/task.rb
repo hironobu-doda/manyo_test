@@ -1,5 +1,8 @@
 class Task < ApplicationRecord
-  validates :title, :content, :time_limit, presence: true
+
+  validates :title, presence: true, length: { maximum: 255 }
+  validates :content, presence: true, length: { maximum: 1000 }
+  validates :time_limit, presence: true
   # 未着手0,着手中1,完了2にした
   enum status:{waiting: 0, working: 1, completed: 2}
   enum priority:{low: 0, middle: 1, high: 2}
