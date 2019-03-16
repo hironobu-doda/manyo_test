@@ -18,21 +18,21 @@ class TasksController < ApplicationController
 
   def index
 
-    if params[:search] == "true"
+    if params[:search]
       # @tasks = Task.where(title: params[:title])
       # @tasks = Task.where(status: params[:status][:name])
-      if (params[:title] != '') && (params[:status] != '')
+      if params[:title].present? && params[:status].present?
         @tasks = Task.page(params[:page]).serch_all(params[:title], params[:status])
-      elsif params[:status] == ''
-        @tasks = Task.page(params[:page]).serch_title(params[:title])
-      else
+      elsif params[:status].present?
         @tasks = Task.page(params[:page]).serch_status(params[:status])
+      else
+        @tasks = Task.page(params[:page]).serch_title(params[:title])
       end
     else
-      if params[:sort_expired] == 'true'
+      if params[:sort_expired]
         # @tasks = Task.all.order(time_limit: :desc)
         @tasks = Task.page(params[:page]).time_limit
-      elsif params[:sort_priority] == 'true'
+      elsif params[:sort_priority]
         # @tasks = Task.all.order(priority: :desc)
         @tasks = Task.page(params[:page]).priority
       else
