@@ -25,7 +25,7 @@ class TasksController < ApplicationController
         @tasks = Task.serch_all(params[:title], params[:status])
       elsif params[:status].present?
         @tasks = Task.serch_status(params[:status])
-      elsif params[:title].present?
+      else params[:title].present?
         @tasks = Task.serch_title(params[:title])
       end
     else
