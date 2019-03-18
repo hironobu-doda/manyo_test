@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if  @user.save
       session[:user_id] = @user.id
+      #新規登録した後、showにidを飛ばしてログインする
       redirect_to user_path(@user.id)
     else
       render'new'

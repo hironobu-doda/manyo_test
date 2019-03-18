@@ -3,3 +3,7 @@
 <td><%= link_to 'タスク一覧画面', tasks_path %></td>
 
 <p>メールアドレス: <%= @user.email %></p>
+
+<% if current_user %>
+  <p>ログインしました</p>
+<% end %>
