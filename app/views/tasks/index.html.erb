@@ -59,9 +59,9 @@
         <td class="col-md-2" class = "index"><%= task.time_limit %></td>
         <td class="col-md-2"><%= task.status %></td>
         <td class="col-md-1" class = "priority"><%= task.priority %></td>
-        <td><%= link_to '詳細確認', task_path(task.id) %></td>
-        <td><%= link_to "タスク編集", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></td>
-        <td><%= link_to 'タスク削除', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>
+        <td><button type="button" class="btn btn-success"><%= link_to '詳細確認', task_path(task.id) %></button></td>
+        <td><button type="button" class="btn btn-warning"><%= link_to "タスク編集", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></button></td>
+        <td><button type="button" class="btn btn-danger"><%= link_to 'タスク削除', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></button></td>
       </tr>
     <% end %>
   </table>
