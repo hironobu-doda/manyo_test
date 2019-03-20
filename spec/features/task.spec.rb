@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.feature "タスク管理機能", type: :feature do
 
   background do
-    FactoryBot.create(:task, title: '付け加えた名前１')
-    FactoryBot.create(:task, title: '付け加えた名前２')
-    FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')
+    FactoryBot.create(:task, title: '付け加えた名前１', time_limit: "2019-03-11 14:20:14 +0900")
+    FactoryBot.create(:task, title: '付け加えた名前２', time_limit: "2019-03-12 14:20:14 +0900")
+    FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント', time_limit: "2019-03-13 14:20:14 +0900")
   end
   # scenario（itのalias）の中に、確認したい各項目のテストの処理を書きます。
   scenario "タスク一覧のテスト" do
@@ -68,7 +68,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     # ここにテスト内容を記載する
 
     visit tasks_path
-    save_and_open_page
+    # save_and_open_page
     # 降順になっているので、FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')から順に並んでいる
     expect(page).to have_content '付け加えた名前３'
     expect(page).to have_content '付け加えたコンテント'
@@ -76,6 +76,37 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
     expect(page).to have_content '付け加えた名前１'
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント１'
+  end
+
+  scenario "タスク終了期限作成のテスト" do
+
+    visit new_task_path
+    # save_and_open_page
+
+    fill_in 'タイトル', with: 'aaa'
+    fill_in '内容', with: 'bbb'
+    fill_in 'Time limit', with: "2019-03-11T14:36:14+09:00"
+
+    click_on '登録する'
+
+    # expect(page).to have_content DateTime.now
+    expect(page).to have_content "2019-03-11 14:36:14 +0900"
+    # save_and_open_page
+  end
+
+  scenario "タスクが終了期限でソートするかテスト" do
+
+   visit tasks_path
+    # save_and_open_page
+
+    click_on '終了期限でソートする'
+     save_and_open_page
+    tasks = page.all(".index")
+    expect(tasks[0]).to have_content '2019-03-13 14:20:14 +0900'
+    expect(tasks[1]).to have_content '2019-03-12 14:20:14 +0900'
+    expect(tasks[2]).to have_content '2019-03-11 14:20:14 +0900'
+    # background.each.do |time_limit|
+    # expect(page).to have_content time_limit
   end
 
 end
