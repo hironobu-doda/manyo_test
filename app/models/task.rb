@@ -16,4 +16,6 @@ class Task < ApplicationRecord
   scope :created_at, -> { all.order(created_at: :desc) }
 
   paginates_per 10
+
+  belongs_to :user
 end

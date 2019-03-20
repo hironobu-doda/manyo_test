@@ -6,7 +6,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
     if @task.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to tasks_path, notice: "タスク作成しました！"
@@ -55,25 +55,25 @@ class TasksController < ApplicationController
 
   def task_searchs
     if params[:title].present? && params[:status].present?
-      @tasks = Task.page(params[:page]).serch_all(params[:title], params[:status])
+      @tasks = current_user.tasks.page(params[:page]).serch_all(params[:title], params[:status])
     elsif params[:status].present?
-      @tasks = Task.page(params[:page]).serch_status(params[:status])
+      @tasks = current_user.tasks.page(params[:page]).serch_status(params[:status])
     else
-      @tasks = Task.page(params[:page]).serch_title(params[:title])
+      @tasks = current_user.tasks.page(params[:page]).serch_title(params[:title])
     end
   end
 
   def task_sorts
     if params[:sort_expired]
       # @tasks = Task.all.order(time_limit: :desc)
-      @tasks = Task.page(params[:page]).time_limit
+      @tasks = current_user.tasks.page(params[:page]).time_limit
     elsif params[:sort_priority]
       # @tasks = Task.all.order(priority: :desc)
-      @tasks = Task.page(params[:page]).priority
+      @tasks = current_user.tasks.page(params[:page]).priority
     else
       # @tasks = Task.all.order(created_at: :desc)
       # @tasks = Task.created_at
-      @tasks = Task.page(params[:page]).created_at
+      @tasks = current_user.tasks.page(params[:page]).created_at
     end
   end
 
