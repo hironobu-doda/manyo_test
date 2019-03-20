@@ -56,7 +56,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def require_admin
-    redirect_to new_session_path unless current_user.admin?
+    render :custom_error unless current_user.admin?
   end
 
 end
