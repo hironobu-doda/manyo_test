@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  # before_destroy :ensure_admin
+  before_destroy :ensure_admin
   has_many :tasks, dependent: :destroy
 
   validates :name,  presence: true, length: { maximum: 30 }
@@ -12,8 +12,8 @@ class User < ApplicationRecord
 
   private
 
-  # def ensure_admin
-  #   redirect_to admin_users_path unless admin?
-  # end
+  def ensure_admin
+    throw(:abort) if admin? && User.where(admin: "true").count <= 1
+  end
 
 end
