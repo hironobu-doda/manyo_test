@@ -6,3 +6,5 @@ ja:
       task:
         title: "タイトル"
         content: "内容"
+        time_limit: "終了期限"
+        status: "ステータス"

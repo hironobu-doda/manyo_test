@@ -17,11 +17,25 @@ class TasksController < ApplicationController
   end
 
   def index
-    if params[:sort_expired] == 'true'
-      @tasks = Task.all.order(time_limit: :desc)
+
+    if params[:search] == "true"
+      # @tasks = Task.where(title: params[:title])
+      # @tasks = Task.where(status: params[:status][:name])
+      if (params[:title] != '') && (params[:status] != '')
+        @tasks = Task.serch_all(params[:title], params[:status])
+      elsif params[:status] == ''
+        @tasks = Task.serch_title(params[:title])
+      else
+        @tasks = Task.serch_status(params[:status])
+      end
     else
-      @tasks = Task.all.order(created_at: :desc)
+      if params[:sort_expired] == 'true'
+        @tasks = Task.all.order(time_limit: :desc)
+      else
+        @tasks = Task.all.order(created_at: :desc)
+      end
     end
+
   end
 
   def show
@@ -46,7 +60,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :time_limit)
+    params.require(:task).permit(:title, :content, :time_limit, :status)
   end
 
   def set_task
