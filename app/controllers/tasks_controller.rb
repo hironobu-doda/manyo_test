@@ -60,6 +60,7 @@ class TasksController < ApplicationController
       @tasks = Task.page(params[:page]).serch_status(params[:status])
     else
       @tasks = Task.page(params[:page]).serch_title(params[:title])
+
     end
   end
 
