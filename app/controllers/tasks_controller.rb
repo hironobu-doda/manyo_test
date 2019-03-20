@@ -18,22 +18,10 @@ class TasksController < ApplicationController
 
   def index
 
-    if params[:search] == "true"
-      # @tasks = Task.where(title: params[:title])
-      # @tasks = Task.where(status: params[:status][:name])
-      if (params[:title] != '') && (params[:status] != '')
-        @tasks = Task.serch_all(params[:title], params[:status])
-      elsif params[:status] == ''
-        @tasks = Task.serch_title(params[:title])
-      else
-        @tasks = Task.serch_status(params[:status])
-      end
+    if params[:search]
+      task_searchs
     else
-      if params[:sort_expired] == 'true'
-        @tasks = Task.all.order(time_limit: :desc)
-      else
-        @tasks = Task.all.order(created_at: :desc)
-      end
+      task_sorts
     end
 
   end
@@ -60,11 +48,31 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :time_limit, :status)
+    params.require(:task).permit(:title, :content, :time_limit, :status, :priority)
   end
 
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def task_searchs
+    if params[:title].present? && params[:status].present?
+      @tasks = Task.serch_all(params[:title], params[:status])
+    elsif params[:status].present?
+      @tasks = Task.serch_status(params[:status])
+    else params[:title].present?
+      @tasks = Task.serch_title(params[:title])
+    end
+  end
+
+  def task_sorts
+    if params[:sort_expired]
+      @tasks = Task.time_limit
+    elsif params[:sort_priority]
+      @tasks = Task.priority
+    else
+      @tasks = Task.created_at
+    end
   end
 
 end

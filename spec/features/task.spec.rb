@@ -6,7 +6,7 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   background do
     FactoryBot.create(:task, title: '付け加えた名前１', time_limit: "2019-03-11 14:20:14 +0900")
-    FactoryBot.create(:task, title: '付け加えた名前２', time_limit: "2019-03-12 14:20:14 +0900")
+    FactoryBot.create(:task, title: '付け加えた名前２', time_limit: "2019-03-12 14:20:14 +0900", priority: "middle")
     FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント', time_limit: "2019-03-13 14:20:14 +0900")
   end
   # scenario（itのalias）の中に、確認したい各項目のテストの処理を書きます。
@@ -126,6 +126,17 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   end
 
+  scenario "優先順位で高い順にソートできるかテスト" do
 
+    visit tasks_path
+    # save_and_open_page
+
+    click_on '優先順位でソートする'
+    save_and_open_page
+    tasks = page.all(".priority")
+    expect(tasks[0]).to have_content 'high'
+    expect(tasks[1]).to have_content 'middle'
+    expect(tasks[2]).to have_content 'low'
+  end
 
 end

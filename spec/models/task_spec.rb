@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Task, type: :model do
 
+  before do
+    FactoryBot.create(:task, title: '付け加えた名前１', priority: "low")
+    FactoryBot.create(:task, title: '付け加えた名前２', priority: "middle")
+    FactoryBot.create(:task, title: '付け加えた名前２', priority: "high")
+  end
+
   it "titleが空ならバリデーションが通らない" do
     task = Task.new(title: '', content: '失敗テスト')
     expect(task).not_to be_valid
@@ -27,5 +33,13 @@ RSpec.describe Task, type: :model do
     expect(task0).to eq 'waiting'
     expect(task1).to eq 'working'
     expect(task2).to eq 'completed'
+  end
+
+  it "優先順位(priority)が高い順にソートできるかテストした" do
+    priority = Task.all.order(priority: :desc)
+    # binding.pry
+    expect(priority[0][:priority]).to eq 'high'
+    expect(priority[1][:priority]).to eq 'middle'
+    expect(priority[2][:priority]).to eq 'low'
   end
 end
