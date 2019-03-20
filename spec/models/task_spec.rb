@@ -42,4 +42,5 @@ RSpec.describe Task, type: :model do
     expect(priority[1][:priority]).to eq 'middle'
     expect(priority[2][:priority]).to eq 'low'
   end
+  
 end

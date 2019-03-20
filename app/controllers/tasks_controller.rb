@@ -17,13 +17,11 @@ class TasksController < ApplicationController
   end
 
   def index
-
     if params[:search]
       task_searchs
     else
       task_sorts
     end
-
   end
 
   def show
@@ -57,21 +55,26 @@ class TasksController < ApplicationController
 
   def task_searchs
     if params[:title].present? && params[:status].present?
-      @tasks = Task.serch_all(params[:title], params[:status])
+      @tasks = Task.page(params[:page]).serch_all(params[:title], params[:status])
     elsif params[:status].present?
-      @tasks = Task.serch_status(params[:status])
-    else params[:title].present?
-      @tasks = Task.serch_title(params[:title])
+      @tasks = Task.page(params[:page]).serch_status(params[:status])
+    else
+      @tasks = Task.page(params[:page]).serch_title(params[:title])
+
     end
   end
 
   def task_sorts
     if params[:sort_expired]
-      @tasks = Task.time_limit
+      # @tasks = Task.all.order(time_limit: :desc)
+      @tasks = Task.page(params[:page]).time_limit
     elsif params[:sort_priority]
-      @tasks = Task.priority
+      # @tasks = Task.all.order(priority: :desc)
+      @tasks = Task.page(params[:page]).priority
     else
-      @tasks = Task.created_at
+      # @tasks = Task.all.order(created_at: :desc)
+      # @tasks = Task.created_at
+      @tasks = Task.page(params[:page]).created_at
     end
   end
 
