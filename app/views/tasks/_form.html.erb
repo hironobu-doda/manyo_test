@@ -23,7 +23,8 @@
 
   <div class="task_title">
     <%= form.label :time_limit %>
-    <%= form.text_field :time_limit %>
+    <#%= form.date_select :time_limit, default: Date.today %>
+    <%= form.date_select :time_limit %>
   </div>
 
   <div class="task_title">
