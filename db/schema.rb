@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2019_03_19_020333) do
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "time_limit", default: "2019-03-19 18:44:59", null: false
+    t.date "time_limit", default: "2019-03-19", null: false
     t.integer "status", default: 0, null: false
     t.integer "priority", default: 0, null: false
     t.bigint "user_id"

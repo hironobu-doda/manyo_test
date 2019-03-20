@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   skip_before_action :login_required
+  before_action :require_admin
   def new
     @user = User.new
   end
@@ -49,6 +50,10 @@ class Admin::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
+  end
+
+  def require_admin
+    redirect_to new_session_path unless current_user.admin?
   end
 
 end
