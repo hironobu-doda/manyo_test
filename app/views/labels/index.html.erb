@@ -1,0 +1,18 @@
+<h1>ラベル一覧（管理者用）</h1>
+
+<%= link_to '新規登録', new_label_path, class: 'btn btn-primary' %>
+<%= link_to 'ユーザー一覧画面（管理者用）', admin_users_path %>
+
+<table>
+  <tr>
+    <th>ラベル</th>
+  </tr>
+
+  <% @labels.each do |label| %>
+    <tr>
+      <td><%= label.label_title %></td>
+      <td><%= link_to "ラベルを編集する", edit_label_path(label.id), data: { confirm: '本当に編集していいですか？' } %></td>
+      <td><%= link_to 'ラベルを削除する', label_path(label.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></td>
+    </tr>
+  <% end %>
+</table>

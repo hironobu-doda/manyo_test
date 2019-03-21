@@ -1,0 +1,9 @@
+<%= form_with(model: @label, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :label_title, 'ラベルタイトル' %>
+    <%= f.text_field :label_title, class: 'form-control' %>
+  </div>
+  <%= f.submit "登録する", class: 'btn btn-primary' %>
+<% end %>
+
+<%= link_to 'ラベル一覧画面', labels_path %>
