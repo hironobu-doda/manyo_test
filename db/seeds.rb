@@ -13,11 +13,18 @@
 #   )
 # end
 
+User.create!(
+    name: "shibao",
+    email: "shibao@example.com",
+    password: "shibaodayo",
+    admin: 'true'
+)
+
 10.times do |n|
   User.create!(
     name: "#{n}yamada",
     email: "#{n}yamada@example.com",
-    password_digest: "#{n}yamadadayo"
+    password: "#{n}yamadadayo"
   )
 end
 
@@ -25,7 +32,8 @@ end
   Task.create!(
     title: "タスク#{i}",
     content: "タスク内容#{i}",
-    user_id: 6 ####ここはseedでできるUserにしてくださいbyまや
+    time_limit: "2019-03-20",
+    user_id: 3 ####ここはseedでできるUserにしてくださいbyまや
   )
 end
 
