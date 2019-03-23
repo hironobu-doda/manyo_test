@@ -10,7 +10,7 @@
             <%= f.label :title, 'タイトル検索' %>
             <%= f.text_field :title %>
           </li>
-
+          
           <li class="col-md-6">
             <%= f.label :status, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
             <%= f.select :status, Task.statuses.values, include_blank: true %>

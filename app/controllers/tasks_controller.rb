@@ -3,11 +3,19 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    @labels = Label.all
   end
 
   def create
     @task = current_user.tasks.new(task_params)
     if @task.save
+
+      if tasklabel_params[:label_ids]
+        tasklabel_params[:label_ids].each do |t|
+          @tasklabel = @task.tasklabels.new(label_id: t)
+          @tasklabel.save
+        end
+      end
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to tasks_path, notice: "タスク作成しました！"
     else
@@ -25,6 +33,7 @@ class TasksController < ApplicationController
   end
 
   def show
+    @tasklabel = @task.tasklabel_labels
   end
 
   def edit
@@ -47,6 +56,10 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :content, :time_limit, :status, :priority)
+  end
+
+  def tasklabel_params
+    params.require(:task).permit({ label_ids: [] })
   end
 
   def set_task
