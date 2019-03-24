@@ -37,10 +37,19 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @labels = Label.all
   end
 
   def update
     if @task.update(task_params)
+
+        if tasklabel_params[:label_ids]
+          @task.tasklabels.destroy_all
+          tasklabel_params[:label_ids].each do |t|
+            @tasklabel = @task.tasklabels.new(label_id: t)
+            @tasklabel.save
+          end
+        end
       redirect_to tasks_path, notice: "タスクを編集しました！"
     else
       render 'edit'
@@ -67,13 +76,22 @@ class TasksController < ApplicationController
   end
 
   def task_searchs
-    if params[:title].present? && params[:status].present?
-      @tasks = current_user.tasks.page(params[:page]).serch_all(params[:title], params[:status])
-    elsif params[:status].present?
-      @tasks = current_user.tasks.page(params[:page]).serch_status(params[:status])
-    else
-      @tasks = current_user.tasks.page(params[:page]).serch_title(params[:title])
+    @tasks = current_user.tasks
+
+    if params[:title].present?
+      @tasks = @tasks.serch_title(params[:title])
     end
+
+    if params[:status].present?
+      @tasks = @tasks.serch_status(params[:status])
+    end
+
+    if params[:label].present?
+      @tasks = @tasks.serch_label(params[:label])
+    end
+
+    @tasks = @tasks.page(params[:page])
+
   end
 
   def task_sorts
