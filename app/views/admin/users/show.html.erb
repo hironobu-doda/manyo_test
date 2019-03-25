@@ -1,0 +1,29 @@
+<h1><%= @user.name %>のページ（管理用）</h1>
+
+<%= link_to '一覧画面にもどる', admin_users_path %>
+
+<p>id: <%= @user.id %></p>
+<p>名前: <%= @user.name %></p>
+<p>メールアドレス: <%= @user.email %></p>
+<p>管理者: <%= @user.admin? ? 'はい' : 'いいえ' %></p>
+
+
+<table>
+  <tr>
+    <th>タイトル</th>
+    <th>内容</th>
+    <th>終了期限</th>
+    <th>ステータス</th>
+    <th>優先順位</th>
+  </tr>
+
+  <% @tasks.each do |task| %>
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= task.content %></td>
+      <td><%= task.time_limit %></td>
+      <td><%= task.status %></td>
+      <td><%= task.priority %></td>
+    </tr>
+  <% end %>
+</table>
