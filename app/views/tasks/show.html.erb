@@ -5,4 +5,18 @@
 <p>ステータス: <%= @task.status %></p>
 <p>優先順位: <%= @task.priority %></p>
 
+<hr>
+
+<table>
+  <tr>
+    <th>ラベル</th>
+  </tr>
+
+  <% @tasklabel.each do |label| %>
+    <tr>
+      <td><%= label.label_title %></td>
+    </tr>
+  <% end %>
+</table>
+
 <%= link_to 'タスク一覧画面にもどる', tasks_path %>

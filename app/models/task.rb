@@ -7,9 +7,14 @@ class Task < ApplicationRecord
   enum status:{waiting: 0, working: 1, completed: 2}
   enum priority:{low: 0, middle: 1, high: 2}
 
-  scope :serch_all, -> (title, status) { where("title = ? and status = ?", title, status) }
   scope :serch_title, -> (title) { where(title: title) }
   scope :serch_status, -> (status) { where(status: status) }
+
+  scope :serch_label, -> (label) {
+    where(id:
+      Tasklabel.where(label_id: label).map{|tasklabel| tasklabel.task_id }
+    )
+  }
 
   scope :time_limit, -> { all.order(time_limit: :desc) }
   scope :priority, -> { all.order(priority: :desc) }
@@ -18,4 +23,7 @@ class Task < ApplicationRecord
   paginates_per 10
 
   belongs_to :user
+
+  has_many :tasklabels, dependent: :destroy
+  has_many :tasklabel_labels, through: :tasklabels, source: :label
 end

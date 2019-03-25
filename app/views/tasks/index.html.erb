@@ -6,14 +6,20 @@
     <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
       <table class="serch">
         <ul class="row">
-          <li class="col-md-4">
+          <li class="col-md-3">
             <%= f.label :title, 'タイトル検索' %>
             <%= f.text_field :title %>
           </li>
 
-          <li class="col-md-6">
-            <%= f.label :status, 'ステータス検索(0:waiting, 1:working, 2:completed)' %>
-            <%= f.select :status, Task.statuses.values, include_blank: true %>
+          <li class="col-md-5">
+            <%= f.label :status, 'ステータス検索' %>
+            <%= f.select :status, Task.statuses.map{ |k, v| [k,v]}, include_blank: true %>
+          </li>
+
+          <li class="col-md-3">
+            <%= f.label :label, 'ラベル検索' %>
+
+            <%= f.select :label, options_from_collection_for_select(Label.all, :id, :label_title), include_blank: true %>
           </li>
 
           <%= f.hidden_field :search, value: 'true' %>
@@ -39,9 +45,9 @@
     </ul>
   </table>
 
-  <%= page_entries_info @tasks %>
+  <%#= page_entries_info @tasks %>
 
-  <%= paginate @tasks %>
+  <%#= paginate @tasks %>
 
   <table>
     <tr class="row">
@@ -56,9 +62,9 @@
       <tr class="row">
         <td class="col-md-2"><%= task.title %></td>
         <td class="col-md-2"><%= task.content %></td>
-        <td class="col-md-2" class = "index"><%= task.time_limit %></td>
+        <td class = "index" class="col-md-2"><%= task.time_limit %></td>
         <td class="col-md-2"><%= task.status %></td>
-        <td class="col-md-1" class = "priority"><%= task.priority %></td>
+        <td class = "priority" class="col-md-1"><%= task.priority %></td>
         <td><button type="button" class="btn btn-success"><%= link_to '詳細確認', task_path(task.id) %></button></td>
         <td><button type="button" class="btn btn-warning"><%= link_to "タスク編集", edit_task_path(task.id), data: { confirm: '本当に編集していいですか？' } %></button></td>
         <td><button type="button" class="btn btn-danger"><%= link_to 'タスク削除', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' } %></button></td>
