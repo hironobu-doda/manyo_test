@@ -5,16 +5,24 @@ require 'rails_helper'
 RSpec.feature "タスク管理機能", type: :feature do
 
   background do
-    FactoryBot.create(:task, title: '付け加えた名前１', time_limit: "2019-03-11 14:20:14 +0900")
-    FactoryBot.create(:task, title: '付け加えた名前２', time_limit: "2019-03-12 14:20:14 +0900", priority: "middle")
-    FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント', time_limit: "2019-03-13 14:20:14 +0900")
+    FactoryBot.create(:user)
+    FactoryBot.create(:label, label_title: '仕事')
+    FactoryBot.create(:label, label_title: 'プライベート')
+    FactoryBot.create(:label, label_title: '勉強')
+    FactoryBot.create(:task, title: '付け加えた名前１', time_limit: "2019-03-11")
+    FactoryBot.create(:task, title: '付け加えた名前２', time_limit: "2019-03-12", priority: "middle")
+    FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント', time_limit: "2019-03-13")
+    # FactoryBot.create(:label)
   end
   # scenario（itのalias）の中に、確認したい各項目のテストの処理を書きます。
   scenario "タスク一覧のテスト" do
-    # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
+    visit new_session_path
 
-    # tasks_pathにvisitする（タスク一覧ページに遷移する）
-    visit tasks_path
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
+    # save_and_open_page
 
     # visitした（到着した）expect(page)に（タスク一覧ページに）「testtesttest」「samplesample」という文字列が
     # have_contentされているか？（含まれているか？）ということをexpectする（確認・期待する）テストを書いている
@@ -24,9 +32,13 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク作成のテスト" do
-    # new_task_pathにvisitする（タスク登録ページに遷移する）
-    # 1.ここにnew_task_pathにvisitする処理を書く
-    visit new_task_path
+    visit new_session_path
+
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
+    click_on '新しくタスクを投稿する'
 
     # 「タスク名」というラベル名の入力欄と、「タスク詳細」というラベル名の入力欄に
     # タスクのタイトルと内容をそれぞれfill_in（入力）する
@@ -48,16 +60,19 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク詳細のテスト" do
-    # Task.create!(title: 'test_task_01', content: 'testtesttest')
-    # Task.create!(title: 'test_task_02', content: 'samplesample')
-    visit tasks_path
+    visit new_session_path
+
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
 
     # 実際の状況を確認したい箇所にさし挟む。
     # 例の場合、「タスクが保存された後、タスク一覧ページに行くとどうなるのか」を確認するため
     # visit tasks_path の直後に save_and_open_page を挟んでいる
     # save_and_open_page
 
-    click_on '詳細を確認する', match: :first
+    click_on '詳細確認', match: :first
     #save_and_open_page
 
     expect(page).to have_content '付け加えた名前３'
@@ -65,9 +80,12 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスクが作成日時の降順に並んでいるかのテスト" do
-    # ここにテスト内容を記載する
+    visit new_session_path
 
-    visit tasks_path
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
     # save_and_open_page
     # 降順になっているので、FactoryBot.create(:second_task, title: '付け加えた名前３', content: '付け加えたコンテント')から順に並んでいる
     expect(page).to have_content '付け加えた名前３'
@@ -79,47 +97,52 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク終了期限作成のテスト" do
+    visit new_session_path
 
-    visit new_task_path
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
     # save_and_open_page
 
-    fill_in 'タイトル', with: 'aaa'
-    fill_in '内容', with: 'bbb'
-    fill_in '終了期限', with: "2019-03-11T14:36:14+09:00"
-
-    click_on '登録する'
-
     # expect(page).to have_content DateTime.now
-    expect(page).to have_content "2019-03-11 14:36:14 +0900"
+    expect(page).to have_content "2019-03-11"
     # save_and_open_page
   end
 
   scenario "タスクが終了期限でソートするかテスト" do
+    visit new_session_path
 
-    visit tasks_path
-    # save_and_open_page
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
 
     click_on '終了期限でソートする'
-     save_and_open_page
+    # save_and_open_page
     tasks = page.all(".index")
-    expect(tasks[0]).to have_content '2019-03-13 14:20:14 +0900'
-    expect(tasks[1]).to have_content '2019-03-12 14:20:14 +0900'
-    expect(tasks[2]).to have_content '2019-03-11 14:20:14 +0900'
+    # binding.pry
+    expect(tasks[0]).to have_content '2019-03-13'
+    expect(tasks[1]).to have_content '2019-03-12'
+    expect(tasks[2]).to have_content '2019-03-11'
     # background.each.do |time_limit|
     # expect(page).to have_content time_limit
   end
 
   scenario "検索ロジックのテスト" do
+    visit new_session_path
 
-    visit tasks_path
-    # save_and_open_page
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
 
     fill_in 'タイトル検索', with: '付け加えた名前１'
 
-    select 0, from: 'ステータス検索(0:waiting, 1:working, 2:completed)'
+    select "waiting", from: 'ステータス検索'
 
     click_on '検索'
-    save_and_open_page
+    # save_and_open_page
 
     expect(page).to have_content '付け加えた名前１'
     expect(page).to have_content 'completed'
@@ -127,16 +150,75 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "優先順位で高い順にソートできるかテスト" do
+    visit new_session_path
 
-    visit tasks_path
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
     # save_and_open_page
 
     click_on '優先順位でソートする'
-    save_and_open_page
+    # save_and_open_page
     tasks = page.all(".priority")
     expect(tasks[0]).to have_content 'high'
-    expect(tasks[1]).to have_content 'middle'
-    expect(tasks[2]).to have_content 'low'
+    expect(tasks[1]).to have_content 'high'
+    expect(tasks[2]).to have_content 'middle'
+  end
+
+  scenario "登録したlabelが詳細画面で表示されるかテストした" do
+    visit new_session_path
+
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
+    # save_and_open_page
+
+    click_on '新しくタスクを投稿する'
+
+    fill_in 'タイトル', with: 'aaa'
+    fill_in '内容', with: 'bbb'
+    check 'task_label_ids_25'
+    check 'task_label_ids_26'
+    check 'task_label_ids_27'
+    # save_and_open_page
+    click_on '登録する'
+    # save_and_open_page
+    visit task_path(29)
+    # save_and_open_page
+
+    expect(page).to have_content '仕事'
+    expect(page).to have_content 'プライベート'
+    expect(page).to have_content '勉強'
+  end
+
+  scenario "仕事ラベルのついたタスクのみを検索できるかテストした" do
+    visit new_session_path
+
+    fill_in 'Email', with: 'shibao@example.com'
+    fill_in 'Password', with: 'shibaodayo'
+    click_on 'Log in'
+    click_on 'タスク一覧画面'
+    # save_and_open_page
+
+    click_on '新しくタスクを投稿する'
+
+    fill_in 'タイトル', with: 'aaa'
+    fill_in '内容', with: 'bbb'
+    check 'task_label_ids_28'
+    check 'task_label_ids_29'
+    check 'task_label_ids_30'
+    # save_and_open_page
+    click_on '登録する'
+    # save_and_open_page
+
+    select '仕事', from: 'ラベル検索'
+    click_on '検索'
+    # visit task_path(33)
+    save_and_open_page
+
+    expect(page).to have_content 'aaa'
   end
 
 end

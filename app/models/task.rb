@@ -7,24 +7,6 @@ class Task < ApplicationRecord
   enum status:{waiting: 0, working: 1, completed: 2}
   enum priority:{low: 0, middle: 1, high: 2}
 
-  # scope :serch_all, -> (title, status) { where("title = ? and status = ?", title, status) }
-  # scope :serch_title, -> (title) { where(title: title) }
-  # scope :serch_status, -> (status) { where(status: status) }
-  #
-  # scope :serch_label, -> (label) {
-  #   where(id:
-  #     Tasklabel.where(label_id: label).map{|tasklabel| tasklabel.task_id }
-  #   )
-  # }
-
-
-
-  # scope :serch_all, -> (title, status, label) { where("title = ? and status = ? and label = ?",
-  #                                                     title, status, Tasklabel.where(label_id: label).map{|tasklabel| tasklabel.task_id }
-  #                                                     )
-  #                                             }
-  #
-  # scope :serch_title_status, -> (title, status) { where("title = ? and status = ?", title, status) }
   scope :serch_title, -> (title) { where(title: title) }
   scope :serch_status, -> (status) { where(status: status) }
 
